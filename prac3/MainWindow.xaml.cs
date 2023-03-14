@@ -49,13 +49,13 @@ namespace prac3
                 List<string> strings = new List<string>();
                 SongList.ItemsSource = null;
                 SongList.ItemsSource = strings;
-                songs = files.ToList();
-                foreach (string s in songs)
+                foreach (string s in files)
                 {
                     if(s.EndsWith("mp3") || s.EndsWith("m4a") || s.EndsWith("waw"))
                     {
                         FileInfo info = new FileInfo(s);
                         strings.Add(info.Name);
+                        songs.Add(s);
                     }
                     
                 }
@@ -63,7 +63,7 @@ namespace prac3
                 SongPlayer.Source = new Uri(files[SongList.SelectedIndex]);
                 SongPlayer.Play();
                 PlayStopBtn.Content = "꠱";
-                songamount = files.Length;
+                songamount = songs.Count;
             }
         }
 
@@ -147,12 +147,13 @@ namespace prac3
             {
                 SongList.ItemsSource = null;
                 SongList.SelectedIndex = 0;
-                ShuffleMethod();
+                ShuffleMethod   ();
                 ShuffleInfo = false;
             }
             else
             {
                 SongList.ItemsSource = null;
+                songs.Sort();
                 SongList.ItemsSource = songs;
                 SongList.SelectedIndex = 0;
                 ShuffleInfo = true;
@@ -170,6 +171,7 @@ namespace prac3
                 ShuffleList.Add(songs[value[index]]);
                 value.RemoveAt(index);
             }
+            songs = ShuffleList;
             SongList.ItemsSource = ShuffleList;
             SongPlayer.Source = new Uri(ShuffleList[SongList.SelectedIndex]);
         }
